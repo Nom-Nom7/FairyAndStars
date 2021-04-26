@@ -24,6 +24,7 @@ function setup() {
 	fairy = createSprite(130, 520);
 	fairy.addAnimation("fairyflying",fairyImg);  
 	fairy.scale =0.25;
+	fairy.velocityX = 0;
 
 	star = createSprite(650,30);
 	star.addImage(starImg);
@@ -41,16 +42,23 @@ function setup() {
 	star.velocityY = starBody.velocity.y;
 	star.x = starBody.position.x;
 	star.y = starBody.position.y;
-
 }
 
 
 function draw() {
   background(bgImg);
 
-  fairyVoice.play();
+  var edges = createEdgeSprites();
+  fairy.collide(edges);
 
-  keyPressed();
+  fairy.velocityX = 0;
+
+  if( starBody.position.y>470 ) {
+	  Body.setStatic(starBody,true) 
+	 }
+
+
+  fairyVoice.play();
 
   drawSprites();
 
@@ -58,24 +66,16 @@ function draw() {
 
 function keyPressed() {
 
-	if(keyDown("LEFT_ARROW")) {
-		fairy.x = fairy.x -5;
-	}
+	if(keyCode ==(RIGHT_ARROW)){
+		fairy.velocityX = 21
+		}
 
-	if(keyDown("RIGHT_ARROW")) {
-		fairy.x = fairy.x + 5;
-	}
-
-	if(keyDown("DOWN_ARROW")) {
-		star.velocityY = star.velocityY + 5;
-	}
-
-	if(star.y>750) {
-       star.y = 30;
-	   star.velocityY = 0;
-	}
-
-	if(fairy.x == 450 && star.y == 485) {
-        star.velocityY = 0;
+	if(keyCode== (LEFT_ARROW)){
+		fairy.velocityX = -20
+		}
+		
+	if(keyCode == DOWN_ARROW ) {
+		Body.setStatic(starBody, false);
+					  
 	}
 }
